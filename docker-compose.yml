@@ -1,0 +1,47 @@
+version: "3.7"
+services:
+  gazebo_ct:
+    container_name: ct2
+    image: ros_nginx:v0
+    network_mode: host
+    entrypoint: ["/bin/bash", "-c"]
+    command: ['source /opt/ros/noetic/setup.bash \
+    && source /turtlebot3_ws/devel/setup.bash && export TURTLEBOT3_MODEL=waffle_pi && roslaunch turtlebot3_gazebo turtlebot3_world.launch']
+    restart: always
+    environment:
+      - DISPLAY=$DISPLAY
+      - QT_X11_NO_MITSHM=1
+      - XAUTHORITY=/tmp/_docker_xauth
+    volumes:
+      - /tmp/_X11-unix:/tmp/_X11-unix:rw
+      - /tmp/_docker_xauth:/tmp/_docker_xauth
+    privileged: true
+    
+  bridge_ct:
+    container_name: ct1
+    image: ros_nginx:v0
+    network_mode: host
+    entrypoint: ["/bin/bash", "-c"]
+    depends_on:
+      - gazebo_ct
+    command: ['sleep 5 && source /opt/ros/noetic/setup.bash && roslaunch rosbridge_server rosbridge_websocket.launch _port:=9090 websocket_external_port:=$SLOT_ROSBRIDGE_PORT --screen']
+    restart: always
+    
+  image_ct:
+    container_name: ct4
+    image: ros_nginx:v0
+    network_mode: host
+    entrypoint: ["/bin/bash", "-c"]
+    depends_on:
+      - gazebo_ct
+    command: ['sleep 5 && source /opt/ros/noetic/setup.bash && rosrun web_video_server web_video_server']
+    restart: always
+    
+  nginx_proxy:
+    container_name: ct3
+    image: my_nginx:v0
+    depends_on:
+      - bridge_ct
+    ports:
+      - "9000:80"
+    restart: always
