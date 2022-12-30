@@ -12,7 +12,7 @@ let vueApp = new Vue({
         logs: [],
         loading: false,
         moveDisabled: true,
-        recordDisabled: false,
+        recordDisabled: true,
         // page content
         menu_title: 'Connection',
         // dragging data
@@ -36,7 +36,8 @@ let vueApp = new Vue({
         pubInterval: null,
         // subscriber data
         position: { x: 0, y: 0, z: 0, },
-        ros_status: null, //0 (communication closed), 1 (communication oppened), 2 (communication ended)
+        ros_status: 100, //0 (communication closed), 1 (communication oppened), 2 (communication ended)
+                         ///100 (web interface initialized), 4 (trying to connect), 99 (connection closed by node)
     },
 
     methods: {
@@ -49,13 +50,13 @@ let vueApp = new Vue({
             })
 
             this.ros.on('connection', () => {
+                console.log('Iniciou')
                 this.logs.unshift((new Date()).toTimeString() + ' - Connected!')
-                this.pubInterval = setInterval(this.publish, 100)
+                
                 this.connected = true
-                this.connection_value = 0
                 this.loading = false
-                this.moveDisabled = true,
-                this.recordDisabled = false,
+                this.moveDisabled = true
+                this.recordDisabled = false
                 this.setCamera()
                 console.log('Connection to ROSBridge established!')
                 let topic = new ROSLIB.Topic({
@@ -65,8 +66,10 @@ let vueApp = new Vue({
                 })
                 topic.subscribe((message) => {
                     this.position = message.pose.pose.position
-                    //console.log(message)
                 })
+
+
+                
                 let ros_status_topic = new ROSLIB.Topic({         
                     ros: this.ros,
                     name: '/parameter_status',
@@ -75,7 +78,9 @@ let vueApp = new Vue({
                 ros_status_topic.subscribe((message) => {
                     this.ros_status = message.data
                     console.log(message)
-                })
+                }) 
+
+                this.pubInterval = setInterval(this.publish, 100)
 
             })
 
@@ -88,9 +93,9 @@ let vueApp = new Vue({
                 this.logs.unshift((new Date()).toTimeString() + ' - Disconnected!')
                 this.connected = false
                 this.loading = false
-                this.moveDisabled = true,
-                this.recordDisabled = true,
-                this.ros_status = null,
+                this.moveDisabled = true
+                this.recordDisabled = true
+                this.ros_status = 100
                 document.getElementById('divCamera').innerHTML = ''
                 console.log('Connection to ROSBridge was closed!')
                 clearInterval(this.pubInterval)
@@ -99,6 +104,8 @@ let vueApp = new Vue({
         },
 
         publish: function () {
+
+            console.log(this.ros_status)
 
             if (this.ros_status == 0) {
 
@@ -117,16 +124,29 @@ let vueApp = new Vue({
 
             }
 
-            else if (this.ros_status == 2) {
+            if (this.ros_status == 2) {
                 this.stop_move()
             }
 
-            else if (this.ros_status == null || this.ros_status == 100) {
-                console.log(this.ros_status)
-                this.stop_move()
+            if (this.ros_status == 99) {
                 this.disconnect()
             }
-            
+
+            if (this.ros_status == 100) { //this.ros_status == null || 
+                console.log('trying to connect')
+                this.ros_status = 4
+                let ros_status_topic = new ROSLIB.Topic({         
+                    ros: this.ros,
+                    name: '/parameter_status',
+                    messageType: 'std_msgs/Int32'
+                })
+                let message_status = new ROSLIB.Message({
+                    data: this.ros_status,
+                })
+                ros_status_topic.publish(message_status);
+            }
+
+
 
         },
 
