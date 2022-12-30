@@ -22,14 +22,15 @@ RUN apt-get install -y ros-noetic-web-video-server
 
 # Create a Catkin workspace and clone TurtleBot3 repos
 
-RUN mkdir -p /turtlebot3_ws/src \
-&& cd /turtlebot3_ws/src \
+RUN mkdir -p /turtlebot3_ws/src
+
+# Copying the local my_package to turtlebot3_ws in the docker image
+COPY ./my_backend/catkin_ws/src/ /turtlebot3_ws/src
+
+RUN cd /turtlebot3_ws/src \
 && git clone -b noetic-devel https://github.com/ROBOTIS-GIT/turtlebot3.git \
 && git clone -b noetic-devel https://github.com/ROBOTIS-GIT/turtlebot3_msgs.git \
 && git clone -b noetic-devel https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git
-
-# Copying the local my_package to turtlebot3_ws in the docker image
-COPY ./my_backend/catkin_ws/src/my_package /turtlebot3_ws/src
 
 # /bin/bash is the command we want to execute when running a docker container
 #ENTRYPOINT ["/bin/bash"]

@@ -19,11 +19,11 @@ The main program can be built and ran by doing the following from the project to
 
 
 
-$ cd docker_ros
-$ docker build -t my_nginx:v0 .
+$ cd docker_ros 
+$ docker build -t ros_nginx:v0 .
 
 $ cd web_vue
-$ docker build -t ros_nginx:v0 .
+$ docker build -t my_nginx:v0 . 
 
 $ cd ..
 $ ./my_compose.sh
