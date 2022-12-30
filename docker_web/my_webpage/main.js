@@ -56,7 +56,7 @@ let vueApp = new Vue({
                 this.connected = true
                 this.loading = false
                 this.moveDisabled = true
-                this.recordDisabled = false
+                this.recordDisabled = true
                 this.setCamera()
                 console.log('Connection to ROSBridge established!')
                 let topic = new ROSLIB.Topic({
@@ -107,7 +107,7 @@ let vueApp = new Vue({
 
             console.log(this.ros_status)
 
-            if (this.ros_status == 0) {
+            if (this.ros_status == 4) {
 
                 let topic = new ROSLIB.Topic({
                     ros: this.ros,
@@ -121,6 +121,8 @@ let vueApp = new Vue({
                 })
 
                 topic.publish(message_joystick)
+
+                this.recordDisabled = false
 
             }
 
@@ -197,13 +199,6 @@ let vueApp = new Vue({
 
             this.moving = true
             this.recordDisabled = true
-
-            //while(this.ros_status=1), this.sendCommand(this.received_vx,this.received_wz)
-            //while (this.ros_status==1) {
-            //    console.log('Receiving data from controler')
-            //}
-
-            //this.stop_move()
 
         },
 

@@ -55,13 +55,13 @@ class replay:
         # Create a list with n placeholder elements
         self.linear_x = [] 
         self.angular_z = []
-        self.bag = rosbag.Bag('test.bag')
+        
         self.cont = 0
         self.length = 0
-        self.read_db()
         
     def read_db(self):
         
+        self.bag = rosbag.Bag('test.bag')
         for topic, msg, t in self.bag.read_messages(topics=['/cmd_vel']):
            self.linear_x.append(msg.linear.x)
            self.angular_z.append(msg.angular.z)
@@ -99,6 +99,17 @@ if __name__ == "__main__":
     rate = rospy.Rate(2)
     rospy.on_shutdown(rest.close_node)
 
+    #Replay initialization
+    rep = replay()
+    sub_ros_status = rospy.Subscriber('/parameter_status', Int32, callback = rep.callback_ros_status)
+    #print(rep.ros_status)
+    while rep.ros_status.data != 4: #and rep.ros_status.data != 0:
+        print("Waiting to connect")
+        print(rep.ros_status)
+        rep.pub_status_value(4)
+        rate.sleep() 
+    rep.pub_status_value(4)
+
     #Store data based on local simulation
     sim = simulate()
     for i in range(10):   
@@ -125,27 +136,13 @@ if __name__ == "__main__":
     #End of data storage    
     rest.bag_close()
     
-    #Replay initialization
-    rep = replay()
-    sub_ros_status = rospy.Subscriber('/parameter_status', Int32, callback = rep.callback_ros_status)
-    
-    print(rep.ros_status)
-    while rep.ros_status.data != 4: #and rep.ros_status.data != 0:
-        print("Trying to open node")
-        print(rep.ros_status)
-        rep.pub_status_value(4)
-        rate.sleep() 
 
+    
     #Start replay
-    rep.pub_status_value(4)
+    rep.read_db()
     print("Start Replay")
     while not rospy.is_shutdown():
-
-        #while rep.ros_status.data != 0:
-        #    rep.pub_status_value(0)
-        #    rate.sleep() 
         print(rep.ros_status)
-
         if(rep.ros_status.data==1):
             print("Start motion")
             rep.cont = 0
