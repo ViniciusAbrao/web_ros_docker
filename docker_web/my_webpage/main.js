@@ -36,6 +36,8 @@ let vueApp = new Vue({
         pubInterval: null,
         // subscriber data
         position: { x: 0, y: 0, z: 0, },
+        subs_linear: 0.0,
+        subs_angular: 0.0,
         ros_status: 100, //0 (communication closed), 1 (communication oppened), 2 (communication ended)
                          ///100 (web interface initialized), 4 (trying to connect), 99 (connection closed by node)
     },
@@ -50,6 +52,7 @@ let vueApp = new Vue({
             })
 
             this.ros.on('connection', () => {
+
                 console.log('Iniciou')
                 this.logs.unshift((new Date()).toTimeString() + ' - Connected!')
                 
@@ -57,8 +60,10 @@ let vueApp = new Vue({
                 this.loading = false
                 this.moveDisabled = true
                 this.recordDisabled = true
+
                 this.setCamera()
                 console.log('Connection to ROSBridge established!')
+
                 let topic = new ROSLIB.Topic({
                     ros: this.ros,
                     name: '/odom',
@@ -67,8 +72,6 @@ let vueApp = new Vue({
                 topic.subscribe((message) => {
                     this.position = message.pose.pose.position
                 })
-
-
                 
                 let ros_status_topic = new ROSLIB.Topic({         
                     ros: this.ros,
@@ -78,6 +81,16 @@ let vueApp = new Vue({
                 ros_status_topic.subscribe((message) => {
                     this.ros_status = message.data
                     console.log(message)
+                }) 
+
+                let vel_topic = new ROSLIB.Topic({         
+                    ros: this.ros,
+                    name: '/cmd_vel',
+                    messageType: 'geometry_msgs/Twist'
+                })
+                vel_topic.subscribe((message) => {
+                    this.subs_linear = message.linear.x
+                    this.subs_angular = message.angular.z
                 }) 
 
                 this.pubInterval = setInterval(this.publish, 100)
@@ -91,6 +104,9 @@ let vueApp = new Vue({
 
             this.ros.on('close', () => {
                 this.logs.unshift((new Date()).toTimeString() + ' - Disconnected!')
+                this.sendCommand(0,0)
+                this.subs_linear = 0
+                this.subs_angular = 0
                 this.connected = false
                 this.loading = false
                 this.moveDisabled = true
@@ -114,12 +130,10 @@ let vueApp = new Vue({
                     name: '/cmd_vel',
                     messageType: 'geometry_msgs/Twist'
                 })
-
                 let message_joystick = new ROSLIB.Message({
                     linear: { x: this.joystick.vertical, y: 0, z: 0, },
                     angular: { x: 0, y: 0, z: this.joystick.horizontal, },
                 })
-
                 topic.publish(message_joystick)
 
                 this.recordDisabled = false
@@ -135,14 +149,11 @@ let vueApp = new Vue({
                     name: '/cmd_vel',
                     messageType: 'geometry_msgs/Twist'
                 })
-
                 let message_joystick = new ROSLIB.Message({
                     linear: { x: this.joystick.vertical, y: 0, z: 0, },
                     angular: { x: 0, y: 0, z: this.joystick.horizontal, },
                 })
-
                 topic.publish(message_joystick)
-
                 this.recordDisabled = false
 
             }
@@ -175,6 +186,9 @@ let vueApp = new Vue({
         disconnect: function () {
             
             this.stop_move()
+            this.sendCommand(0,0)
+            this.subs_linear = 0
+            this.subs_angular = 0
 
             this.ros_status = 2
             let ros_status_topic = new ROSLIB.Topic({         
