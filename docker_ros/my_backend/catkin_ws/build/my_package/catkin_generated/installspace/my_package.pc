@@ -1,0 +1,8 @@
+prefix=/home/abrao/Downloads/the_construct/final/docker_ros/my_backend/catkin_ws/install
+
+Name: my_package
+Description: Description of my_package
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib 
+Requires: rospy message_runtime

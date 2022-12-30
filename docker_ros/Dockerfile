@@ -28,6 +28,9 @@ RUN mkdir -p /turtlebot3_ws/src \
 && git clone -b noetic-devel https://github.com/ROBOTIS-GIT/turtlebot3_msgs.git \
 && git clone -b noetic-devel https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git
 
+# Copying the local my_package to turtlebot3_ws in the docker image
+COPY ./my_backend/catkin_ws/src/my_package /turtlebot3_ws/src
+
 # /bin/bash is the command we want to execute when running a docker container
 #ENTRYPOINT ["/bin/bash"]
 SHELL ["/bin/bash", "-c"] 

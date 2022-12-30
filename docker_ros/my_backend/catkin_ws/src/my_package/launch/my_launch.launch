@@ -1,0 +1,9 @@
+<launch>
+    
+    <!-- My Package launch file  
+    <param name="connection_status" type="int" value="0" /> -->
+    
+    <node pkg="my_package" type="my_node.py" name="backend_node"  output="screen">
+    </node> 
+    
+</launch>

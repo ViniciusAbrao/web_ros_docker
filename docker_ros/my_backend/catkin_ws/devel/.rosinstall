@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/abrao/Downloads/the_construct/final/docker_ros/my_backend/catkin_ws/devel/setup.sh
