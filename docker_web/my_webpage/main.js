@@ -127,7 +127,24 @@ let vueApp = new Vue({
             }
 
             if (this.ros_status == 2) {
+
                 this.stop_move()
+
+                let topic = new ROSLIB.Topic({
+                    ros: this.ros,
+                    name: '/cmd_vel',
+                    messageType: 'geometry_msgs/Twist'
+                })
+
+                let message_joystick = new ROSLIB.Message({
+                    linear: { x: this.joystick.vertical, y: 0, z: 0, },
+                    angular: { x: 0, y: 0, z: this.joystick.horizontal, },
+                })
+
+                topic.publish(message_joystick)
+
+                this.recordDisabled = false
+
             }
 
             if (this.ros_status == 99) {
@@ -135,6 +152,7 @@ let vueApp = new Vue({
             }
 
             if (this.ros_status == 100) { //this.ros_status == null || 
+
                 console.log('trying to connect')
                 this.ros_status = 4
                 let ros_status_topic = new ROSLIB.Topic({         
@@ -147,9 +165,6 @@ let vueApp = new Vue({
                 })
 
                 ros_status_topic.publish(message_status);
-
-                //setTimeout(function(){
-                //}, 100);
                 
             }
 
@@ -158,7 +173,9 @@ let vueApp = new Vue({
         },
 
         disconnect: function () {
+            
             this.stop_move()
+
             this.ros_status = 2
             let ros_status_topic = new ROSLIB.Topic({         
                 ros: this.ros,
@@ -170,6 +187,8 @@ let vueApp = new Vue({
             })
             ros_status_topic.publish(message_status);
             this.ros.close()
+
+            
         },
 
         start_record: function () {
