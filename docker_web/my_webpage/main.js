@@ -143,7 +143,12 @@ let vueApp = new Vue({
                 let message_status = new ROSLIB.Message({
                     data: this.ros_status,
                 })
+
                 ros_status_topic.publish(message_status);
+
+                //setTimeout(function(){
+                //}, 100);
+                
             }
 
 
@@ -152,6 +157,16 @@ let vueApp = new Vue({
 
         disconnect: function () {
             this.stop_move()
+            this.ros_status = 2
+            let ros_status_topic = new ROSLIB.Topic({         
+                ros: this.ros,
+                name: '/parameter_status',
+                messageType: 'std_msgs/Int32'
+            })
+            let message_status = new ROSLIB.Message({
+                data: this.ros_status,
+            })
+            ros_status_topic.publish(message_status);
             this.ros.close()
         },
 
@@ -196,7 +211,7 @@ let vueApp = new Vue({
 
             console.log('Stop Move')
 
-            this.ros_status = 0
+            this.ros_status = 2
             let ros_status_topic = new ROSLIB.Topic({         
                 ros: this.ros,
                 name: '/parameter_status',

@@ -12,7 +12,7 @@ class store:
         self.msg_odom=Odometry()
         self.msg_vel=Twist()  
         self.bag= rosbag.Bag('test.bag', 'w')
-        self.pub_status = rospy.Publisher('/parameter_status', Int32, queue_size=10)
+        self.pub_status = rospy.Publisher('/parameter_status', Int32, queue_size=1)
         self.ros_status = Int32()
         
     def callback_odom(self, msg): 
@@ -37,7 +37,7 @@ class store:
 class simulate:
 
     def __init__(self):
-        self.publisher = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
+        self.publisher = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
         self.move = Twist()
         
     def pub(self,xx,yy):
@@ -48,8 +48,8 @@ class simulate:
 class replay:
 
     def __init__(self):
-        self.publisher = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
-        self.pub_status = rospy.Publisher('/parameter_status', Int32, queue_size=10)
+        self.publisher = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
+        self.pub_status = rospy.Publisher('/parameter_status', Int32, queue_size=1)
         self.move = Twist()
         self.ros_status = Int32()
         # Create a list with n placeholder elements
@@ -96,7 +96,7 @@ if __name__ == "__main__":
     sub_cmd_vel = rospy.Subscriber('/cmd_vel', Twist, callback = rest.callback_cmd_vel)
 
     #General initialization
-    rate = rospy.Rate(10)
+    rate = rospy.Rate(2)
     rospy.on_shutdown(rest.close_node)
 
     #Store data based on local simulation
@@ -128,25 +128,34 @@ if __name__ == "__main__":
     #Replay initialization
     rep = replay()
     sub_ros_status = rospy.Subscriber('/parameter_status', Int32, callback = rep.callback_ros_status)
-    while rep.ros_status.data != 4:
-        #rep.pub_status_value(4)
+    
+    print(rep.ros_status)
+    while rep.ros_status.data != 4: #and rep.ros_status.data != 0:
+        print("Trying to open node")
+        print(rep.ros_status)
+        rep.pub_status_value(4)
         rate.sleep() 
 
     #Start replay
-    rep.pub_status_value(0)
+    rep.pub_status_value(4)
     print("Start Replay")
     while not rospy.is_shutdown():
-        #print(rep.ros_status)
+
+        #while rep.ros_status.data != 0:
+        #    rep.pub_status_value(0)
+        #    rate.sleep() 
+        print(rep.ros_status)
+
         if(rep.ros_status.data==1):
-            print("Mandou entrar")
+            print("Start motion")
             rep.cont = 0
             for i in range(rep.length):   
-                if(rospy.is_shutdown() or rep.ros_status.data==0):
+                if(rospy.is_shutdown() or rep.ros_status.data==2):
                     break
                 rep.pub_vel()
                 rate.sleep()
             rep.pub_status_value(2)
-            print("Mandou zero")
+            print("Stop motion")
         rate.sleep() 
     
 
