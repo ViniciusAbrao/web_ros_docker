@@ -4,8 +4,6 @@ My Final Project of Specialization Course at PUC Minas - Software Engineering
 
 <img src="media/diagram.jpg" width="700" height="400" />
 
-Image - https://www.theconstructsim.com/
-
 The web page interface enables to move and monitor the turtlebot (running in the Gazebo Simulation), by publishing and subscribing ROS topics.
 
 The deployment is done by docker containers.
