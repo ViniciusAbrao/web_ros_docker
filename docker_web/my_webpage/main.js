@@ -40,6 +40,7 @@ let vueApp = new Vue({
         subs_angular: 0.0,
         ros_status: 100, //0 (communication closed), 1 (communication oppened), 2 (communication ended)
                          ///100 (web interface initialized), 4 (trying to connect), 99 (connection closed by node)
+        db_status: 0, //0 (start communication with database), 1 (stop communication with database)
     },
 
     methods: {
@@ -80,7 +81,17 @@ let vueApp = new Vue({
                 })
                 ros_status_topic.subscribe((message) => {
                     this.ros_status = message.data
-                    console.log(message)
+                    //console.log(message)
+                }) 
+
+                let db_status_topic = new ROSLIB.Topic({         
+                    ros: this.ros,
+                    name: '/db_communication',
+                    messageType: 'std_msgs/Int32'
+                })
+                db_status_topic.subscribe((message) => {
+                    this.db_status = message.data
+                    //console.log(message)
                 }) 
 
                 let vel_topic = new ROSLIB.Topic({         
@@ -121,7 +132,7 @@ let vueApp = new Vue({
 
         publish: function () {
 
-            console.log(this.ros_status)
+            //console.log(this.ros_status)
 
             if (this.ros_status == 4) {
 
@@ -164,7 +175,7 @@ let vueApp = new Vue({
 
             if (this.ros_status == 100) { //this.ros_status == null || 
 
-                console.log('trying to connect')
+                //console.log('trying to connect')
                 this.ros_status = 4
                 let ros_status_topic = new ROSLIB.Topic({         
                     ros: this.ros,
@@ -186,6 +197,7 @@ let vueApp = new Vue({
         disconnect: function () {
             
             this.stop_move()
+            this.stop_record()
             this.sendCommand(0,0)
             this.subs_linear = 0
             this.subs_angular = 0
@@ -206,13 +218,43 @@ let vueApp = new Vue({
         },
 
         start_record: function () {
+
+            console.log('Start Record')
+
+            this.db_status = 1
+            let db_status_topic = new ROSLIB.Topic({         
+                ros: this.ros,
+                name: '/db_connection',
+                messageType: 'std_msgs/Int32'
+            })
+            let message_db = new ROSLIB.Message({
+                data: this.db_status,
+            })
+            db_status_topic.publish(message_db);
+
             this.recording = true
             this.moveDisabled = true
+
         },
 
         stop_record: function () {
+
+            console.log('Stop Record')
+
+            this.db_status = 0
+            let db_status_topic = new ROSLIB.Topic({         
+                ros: this.ros,
+                name: '/db_connection',
+                messageType: 'std_msgs/Int32'
+            })
+            let message_db = new ROSLIB.Message({
+                data: this.db_status,
+            })
+            db_status_topic.publish(message_db);
+
             this.recording = false
             this.moveDisabled = false
+
         },
 
         start_move: function () {
@@ -270,6 +312,7 @@ let vueApp = new Vue({
                 angular: { x: 0, y: 0, z: wz, },
             })
             topic.publish(message)
+
         },
 
         startDrag() {

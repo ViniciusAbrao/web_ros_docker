@@ -1,5 +1,5 @@
 #! /usr/bin/env python3
-
+import os
 import rosbag
 from std_msgs.msg import Int32, String
 import rospy
@@ -9,12 +9,14 @@ from geometry_msgs.msg import Twist
 class store:
 
     def __init__(self):
+        self.bag= rosbag.Bag('test.bag', 'w')
         self.msg_odom=Odometry()
         self.msg_vel=Twist()  
-        self.bag= rosbag.Bag('test.bag', 'w')
         self.pub_status = rospy.Publisher('/parameter_status', Int32, queue_size=1)
         self.ros_status = Int32()
-        
+        self.db_status_publisher = rospy.Publisher('/db_communication', Int32, queue_size=1)
+        self.db_status = Int32()
+
     def callback_odom(self, msg): 
        self.msg_odom=msg
 
@@ -26,12 +28,27 @@ class store:
         self.ros_status.data = 99
         self.pub_status.publish(self.ros_status)
 
+    def bag_open(self):
+        self.bag_close()
+        if os.path.exists("/home/abrao/.ros/test.bag"):
+            print("file deleted")
+            os.remove("test.bag")
+        self.bag= rosbag.Bag('test.bag', 'w')
+
     def bag_close(self):
         self.bag.close()
 
     def close_node(self):
         self.end_connection()
         self.bag.close()
+
+    def pub_db_status(self, value):
+        for i in range(5): 
+            self.db_status.data = value
+            self.db_status_publisher.publish(self.db_status)
+
+    def callback_db_status(self, msg): 
+       self.db_status=msg
 
 
 class simulate:
@@ -61,6 +78,8 @@ class replay:
         
     def read_db(self):
         
+        self.linear_x = [] 
+        self.angular_z = []
         self.bag = rosbag.Bag('test.bag')
         for topic, msg, t in self.bag.read_messages(topics=['/cmd_vel']):
            self.linear_x.append(msg.linear.x)
@@ -94,6 +113,7 @@ if __name__ == "__main__":
     print("my_node opened")
     sub_odom = rospy.Subscriber('/odom', Odometry, callback = rest.callback_odom)
     sub_cmd_vel = rospy.Subscriber('/cmd_vel', Twist, callback = rest.callback_cmd_vel)
+    sub_db_status = rospy.Subscriber('/db_connection', Int32, callback = rest.callback_db_status)
 
     #General initialization
     rate = rospy.Rate(2)
@@ -102,49 +122,54 @@ if __name__ == "__main__":
     #Replay initialization
     rep = replay()
     sub_ros_status = rospy.Subscriber('/parameter_status', Int32, callback = rep.callback_ros_status)
-    #print(rep.ros_status)
     while rep.ros_status.data != 4: #and rep.ros_status.data != 0:
         print("Waiting to connect")
-        print(rep.ros_status)
+        #print(rep.ros_status)
         rep.pub_status_value(4)
         rate.sleep() 
     rep.pub_status_value(4)
 
     #Store data based on local simulation
-    sim = simulate()
-    for i in range(10):   
-        if(rospy.is_shutdown()):
-            break
-        sim.pub(0.2,0.5)
-        rest.bag.write('/odom', rest.msg_odom)
-        rest.bag.write('/cmd_vel', rest.msg_vel)
-        rate.sleep() 
-    for i in range(5):   
-        if(rospy.is_shutdown()):
-            break
-        sim.pub(0.0,0.0)
-        rest.bag.write('/odom', rest.msg_odom)
-        rest.bag.write('/cmd_vel', rest.msg_vel)
-        rate.sleep()      
-
-    #Store data based on web simulation
-    '''while not rospy.is_shutdown(): 
-        rest.bag.write('/odom', rest.msg_odom)
-        rest.bag.write('/cmd_vel', rest.msg_vel)
-        rate.sleep()''' 
-    
-    #End of data storage    
-    rest.bag_close()
-    
-
-    
-    #Start replay
-    rep.read_db()
-    print("Start Replay")
+    #sim = simulate()
+    #rest.bag_open()
+    #for i in range(10):   
+    #    if(rospy.is_shutdown()):
+    #        break
+    #    sim.pub(0.2,0.5)
+    #    rest.bag.write('/odom', rest.msg_odom)
+    #    rest.bag.write('/cmd_vel', rest.msg_vel)
+    #    rate.sleep() 
+    #for i in range(5):   
+    #    if(rospy.is_shutdown()):
+    #        break
+    #    sim.pub(0.0,0.0)
+    #    rest.bag.write('/odom', rest.msg_odom)
+    #    rest.bag.write('/cmd_vel', rest.msg_vel)
+    #    rate.sleep()      
+    #rest.bag_close()
+       
+    #Start node
+    print("Start node")
     while not rospy.is_shutdown():
-        print(rep.ros_status)
+
+        #Store data based on web simulation
+        #print('restore_status:',rest.db_status)
+        if(rest.db_status.data==1):
+            rest.bag_open()
+            print("Start Record")
+            while(rest.db_status.data==1):
+                rest.bag.write('/odom', rest.msg_odom)
+                rest.bag.write('/cmd_vel', rest.msg_vel)
+                rate.sleep()
+            rest.bag_close()
+            #rest.pub_db_status(0)
+            print("Stop Record")
+                     
+        #Replay data loaded from DB
+        #print('replay_status:',rep.ros_status)
         if(rep.ros_status.data==1):
-            print("Start motion")
+            print("Start Move")
+            rep.read_db()
             rep.cont = 0
             for i in range(rep.length):   
                 if(rospy.is_shutdown() or rep.ros_status.data==2):
@@ -152,8 +177,11 @@ if __name__ == "__main__":
                 rep.pub_vel()
                 rate.sleep()
             rep.pub_status_value(2)
-            print("Stop motion")
-        rate.sleep() 
+            print("Stop Move")
+
+        rate.sleep()
+
+
     
 
 

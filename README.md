@@ -42,3 +42,6 @@ docker kill $(docker ps -aq);
 
 Clear containers:
 docker container prune -f 
+
+Delete Images:
+docker rmi --force 'image_id'
