@@ -43,5 +43,13 @@ docker kill $(docker ps -aq);
 Clear containers:
 docker container prune -f 
 
-Delete Images:
-docker rmi --force 'image_id'
+## Docker Hub
+
+
+The docker images are also available in Docker Hub, and can be directly downloaded by:
+$ docker pull viniciusabrao/my_nginx:v0
+$ docker pull viniciusabrao/ros_nginx:v0
+
+To delete the images:
+$ docker rmi --force viniciusabrao/my_nginx:v0
+$ docker rmi --force viniciusabrao/ros_nginx:v0
