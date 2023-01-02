@@ -39,6 +39,7 @@ $ docker pull viniciusabrao/my_nginx:v0
 $ docker pull viniciusabrao/ros_nginx:v0
 
 In this case the docker-compose file must be edited to rename the images including "viniciusabrao/".
+
 ## Running the application 
 
 The app is configured (docker-compose.yml) to run in Ubuntu, since it opens the Gazebo in the host (to see the robot`s environment) from the docker container.
