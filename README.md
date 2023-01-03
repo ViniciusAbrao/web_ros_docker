@@ -54,20 +54,25 @@ http://0.0.0.0:9000/
 
 ws://0.0.0.0:9090
 
-4- To close (ctrl+c):
+4- To copy the bag file from the container to the host:
+
+$ docker cp ct5:/root/.ros/test.bag /home/abrao/test.bag
+
+5- To close (ctrl+c):
 
 $ docker-compose down 
 
-5- Stop containers:
+6- Stop containers:
 
 $ docker kill $(docker ps -aq); 
 
-6- Clear containers:
+7- Clear containers:
 
 $ docker container prune -f 
 
-7- To delete the images:
+8- To delete the images:
 
 $ docker rmi --force viniciusabrao/my_nginx:v0
 
 $ docker rmi --force viniciusabrao/ros_nginx:v0
+
