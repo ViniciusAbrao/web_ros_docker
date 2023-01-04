@@ -1,4 +1,4 @@
-prefix=/home/abrao/Downloads/the_construct/final/docker_ros/my_backend/catkin_ws/install
+prefix=/home/abrao/Downloads/puc/the_construct/final/docker_ros/my_backend/catkin_ws/install
 
 Name: my_package
 Description: Description of my_package

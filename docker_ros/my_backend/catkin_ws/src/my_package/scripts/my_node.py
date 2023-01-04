@@ -1,27 +1,37 @@
 #! /usr/bin/env python3
-import os
+#import os
 import rosbag
 from std_msgs.msg import Int32, String
 import rospy
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Twist
 
-class store:
+class executed:
 
     def __init__(self):
-        self.bag= rosbag.Bag('test.bag', 'w')
         self.msg_odom=Odometry()
-        self.msg_vel=Twist()  
-        self.pub_status = rospy.Publisher('/parameter_status', Int32, queue_size=1)
-        self.ros_status = Int32()
-        self.db_status_publisher = rospy.Publisher('/db_communication', Int32, queue_size=1)
-        self.db_status = Int32()
 
     def callback_odom(self, msg): 
        self.msg_odom=msg
 
+
+class commanded:
+
+    def __init__(self):
+        self.msg_vel=Twist() 
+
     def callback_cmd_vel(self, msg): 
        self.msg_vel=msg
+
+
+class store:
+
+    def __init__(self):
+        self.bag= rosbag.Bag('test.bag', 'w')       
+        self.pub_status = rospy.Publisher('/parameter_status', Int32, queue_size=1)
+        self.ros_status = Int32()
+        self.db_status_publisher = rospy.Publisher('/db_communication', Int32, queue_size=1)
+        self.db_status = Int32()
 
     def end_connection(self):
         print("my_node closed")
@@ -30,9 +40,9 @@ class store:
 
     def bag_open(self):
         self.bag_close()
-        if os.path.exists("/home/abrao/.ros/test.bag"):
-            print("file deleted")
-            os.remove("test.bag")
+        #if os.path.exists("/home/abrao/.ros/test.bag"):
+        #    print("file deleted")
+        #    os.remove("test.bag")
         self.bag= rosbag.Bag('test.bag', 'w')
 
     def bag_close(self):
@@ -111,13 +121,17 @@ if __name__ == "__main__":
     rest = store()
     rest.end_connection() #force the web interface reconnect case is already connected
     print("my_node opened")
-    sub_odom = rospy.Subscriber('/odom', Odometry, callback = rest.callback_odom)
-    sub_cmd_vel = rospy.Subscriber('/cmd_vel', Twist, callback = rest.callback_cmd_vel)
     sub_db_status = rospy.Subscriber('/db_connection', Int32, callback = rest.callback_db_status)
 
     #General initialization
     rate = rospy.Rate(2)
     rospy.on_shutdown(rest.close_node)
+
+    #Subscribe topics initialization
+    odom_read = executed()
+    cmd_vel_read = commanded()
+    sub_odom = rospy.Subscriber('/odom', Odometry, callback = odom_read.callback_odom)
+    sub_cmd_vel = rospy.Subscriber('/cmd_vel', Twist, callback = cmd_vel_read.callback_cmd_vel)
 
     #Replay initialization
     rep = replay()
@@ -158,8 +172,8 @@ if __name__ == "__main__":
             rest.bag_open()
             print("Start Record")
             while(rest.db_status.data==1):
-                rest.bag.write('/odom', rest.msg_odom)
-                rest.bag.write('/cmd_vel', rest.msg_vel)
+                rest.bag.write('/odom', odom_read.msg_odom)
+                rest.bag.write('/cmd_vel', cmd_vel_read.msg_vel)
                 rate.sleep()
             rest.bag_close()
             #rest.pub_db_status(0)

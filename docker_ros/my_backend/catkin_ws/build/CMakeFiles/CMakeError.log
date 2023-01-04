@@ -1,21 +1,21 @@
 Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
-Change Dir: /home/abrao/Downloads/the_construct/final/docker_ros/my_backend/catkin_ws/build/CMakeFiles/CMakeTmp
+Change Dir: /home/abrao/Downloads/puc/the_construct/final/docker_ros/my_backend/catkin_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_dd7f8/fast && /usr/bin/make -f CMakeFiles/cmTC_dd7f8.dir/build.make CMakeFiles/cmTC_dd7f8.dir/build
-make[1]: Entering directory '/home/abrao/Downloads/the_construct/final/docker_ros/my_backend/catkin_ws/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_dd7f8.dir/src.c.o
-/usr/bin/cc   -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_dd7f8.dir/src.c.o   -c /home/abrao/Downloads/the_construct/final/docker_ros/my_backend/catkin_ws/build/CMakeFiles/CMakeTmp/src.c
-Linking C executable cmTC_dd7f8
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_dd7f8.dir/link.txt --verbose=1
-/usr/bin/cc  -DCMAKE_HAVE_LIBC_PTHREAD    -rdynamic CMakeFiles/cmTC_dd7f8.dir/src.c.o  -o cmTC_dd7f8 
-/usr/bin/ld: CMakeFiles/cmTC_dd7f8.dir/src.c.o: in function `main':
+Run Build Command(s):/usr/bin/make cmTC_43875/fast && /usr/bin/make -f CMakeFiles/cmTC_43875.dir/build.make CMakeFiles/cmTC_43875.dir/build
+make[1]: Entering directory '/home/abrao/Downloads/puc/the_construct/final/docker_ros/my_backend/catkin_ws/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_43875.dir/src.c.o
+/usr/bin/cc   -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_43875.dir/src.c.o   -c /home/abrao/Downloads/puc/the_construct/final/docker_ros/my_backend/catkin_ws/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_43875
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_43875.dir/link.txt --verbose=1
+/usr/bin/cc  -DCMAKE_HAVE_LIBC_PTHREAD    -rdynamic CMakeFiles/cmTC_43875.dir/src.c.o  -o cmTC_43875 
+/usr/bin/ld: CMakeFiles/cmTC_43875.dir/src.c.o: in function `main':
 src.c:(.text+0x46): undefined reference to `pthread_create'
 /usr/bin/ld: src.c:(.text+0x52): undefined reference to `pthread_detach'
 /usr/bin/ld: src.c:(.text+0x63): undefined reference to `pthread_join'
 collect2: error: ld returned 1 exit status
-make[1]: *** [CMakeFiles/cmTC_dd7f8.dir/build.make:87: cmTC_dd7f8] Error 1
-make[1]: Leaving directory '/home/abrao/Downloads/the_construct/final/docker_ros/my_backend/catkin_ws/build/CMakeFiles/CMakeTmp'
-make: *** [Makefile:121: cmTC_dd7f8/fast] Error 2
+make[1]: *** [CMakeFiles/cmTC_43875.dir/build.make:87: cmTC_43875] Error 1
+make[1]: Leaving directory '/home/abrao/Downloads/puc/the_construct/final/docker_ros/my_backend/catkin_ws/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_43875/fast] Error 2
 
 
 Source file was:
@@ -39,20 +39,20 @@ int main(void)
 }
 
 Determining if the function pthread_create exists in the pthreads failed with the following output:
-Change Dir: /home/abrao/Downloads/the_construct/final/docker_ros/my_backend/catkin_ws/build/CMakeFiles/CMakeTmp
+Change Dir: /home/abrao/Downloads/puc/the_construct/final/docker_ros/my_backend/catkin_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_56f8f/fast && /usr/bin/make -f CMakeFiles/cmTC_56f8f.dir/build.make CMakeFiles/cmTC_56f8f.dir/build
-make[1]: Entering directory '/home/abrao/Downloads/the_construct/final/docker_ros/my_backend/catkin_ws/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_56f8f.dir/CheckFunctionExists.c.o
-/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_56f8f.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
-Linking C executable cmTC_56f8f
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_56f8f.dir/link.txt --verbose=1
-/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_56f8f.dir/CheckFunctionExists.c.o  -o cmTC_56f8f  -lpthreads 
+Run Build Command(s):/usr/bin/make cmTC_a22cc/fast && /usr/bin/make -f CMakeFiles/cmTC_a22cc.dir/build.make CMakeFiles/cmTC_a22cc.dir/build
+make[1]: Entering directory '/home/abrao/Downloads/puc/the_construct/final/docker_ros/my_backend/catkin_ws/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_a22cc.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_a22cc.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_a22cc
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a22cc.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_a22cc.dir/CheckFunctionExists.c.o  -o cmTC_a22cc  -lpthreads 
 /usr/bin/ld: cannot find -lpthreads
 collect2: error: ld returned 1 exit status
-make[1]: *** [CMakeFiles/cmTC_56f8f.dir/build.make:87: cmTC_56f8f] Error 1
-make[1]: Leaving directory '/home/abrao/Downloads/the_construct/final/docker_ros/my_backend/catkin_ws/build/CMakeFiles/CMakeTmp'
-make: *** [Makefile:121: cmTC_56f8f/fast] Error 2
+make[1]: *** [CMakeFiles/cmTC_a22cc.dir/build.make:87: cmTC_a22cc] Error 1
+make[1]: Leaving directory '/home/abrao/Downloads/puc/the_construct/final/docker_ros/my_backend/catkin_ws/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_a22cc/fast] Error 2
 
 
 

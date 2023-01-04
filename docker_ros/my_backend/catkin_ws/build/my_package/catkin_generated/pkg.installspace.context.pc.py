@@ -4,5 +4,5 @@ PROJECT_PKG_CONFIG_INCLUDE_DIRS = "${prefix}/include".split(';') if "${prefix}/i
 PROJECT_CATKIN_DEPENDS = "rospy;message_runtime".replace(';', ' ')
 PKG_CONFIG_LIBRARIES_WITH_PREFIX = "".split(';') if "" != "" else []
 PROJECT_NAME = "my_package"
-PROJECT_SPACE_DIR = "/home/abrao/Downloads/the_construct/final/docker_ros/my_backend/catkin_ws/install"
+PROJECT_SPACE_DIR = "/home/abrao/Downloads/puc/the_construct/final/docker_ros/my_backend/catkin_ws/install"
 PROJECT_VERSION = "0.0.0"

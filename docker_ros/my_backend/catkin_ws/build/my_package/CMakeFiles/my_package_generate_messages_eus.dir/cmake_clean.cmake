@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/abrao/Downloads/the_construct/final/docker_ros/my_backend/catkin_ws/devel/share/roseus/ros/my_package/manifest.l"
-  "/home/abrao/Downloads/the_construct/final/docker_ros/my_backend/catkin_ws/devel/share/roseus/ros/my_package/msg/Age.l"
+  "/home/abrao/Downloads/puc/the_construct/final/docker_ros/my_backend/catkin_ws/devel/share/roseus/ros/my_package/manifest.l"
+  "/home/abrao/Downloads/puc/the_construct/final/docker_ros/my_backend/catkin_ws/devel/share/roseus/ros/my_package/msg/Age.l"
   "CMakeFiles/my_package_generate_messages_eus"
 )
 

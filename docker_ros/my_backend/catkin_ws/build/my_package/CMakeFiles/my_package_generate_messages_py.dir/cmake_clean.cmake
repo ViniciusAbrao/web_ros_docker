@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/abrao/Downloads/the_construct/final/docker_ros/my_backend/catkin_ws/devel/lib/python3/dist-packages/my_package/msg/_Age.py"
-  "/home/abrao/Downloads/the_construct/final/docker_ros/my_backend/catkin_ws/devel/lib/python3/dist-packages/my_package/msg/__init__.py"
+  "/home/abrao/Downloads/puc/the_construct/final/docker_ros/my_backend/catkin_ws/devel/lib/python3/dist-packages/my_package/msg/_Age.py"
+  "/home/abrao/Downloads/puc/the_construct/final/docker_ros/my_backend/catkin_ws/devel/lib/python3/dist-packages/my_package/msg/__init__.py"
   "CMakeFiles/my_package_generate_messages_py"
 )
 

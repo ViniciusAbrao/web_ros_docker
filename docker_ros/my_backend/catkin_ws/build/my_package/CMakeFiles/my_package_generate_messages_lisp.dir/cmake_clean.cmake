@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "/home/abrao/Downloads/the_construct/final/docker_ros/my_backend/catkin_ws/devel/share/common-lisp/ros/my_package/msg/Age.lisp"
+  "/home/abrao/Downloads/puc/the_construct/final/docker_ros/my_backend/catkin_ws/devel/share/common-lisp/ros/my_package/msg/Age.lisp"
   "CMakeFiles/my_package_generate_messages_lisp"
 )
 
