@@ -3,6 +3,15 @@ let vueApp = new Vue({
     el: "#vueApp",
 
     data: {
+        //visibility
+        show_address: true,
+        show_options: false,
+        show_record: false,
+        show_move: false,
+        show_camera: false,
+        show_datalogger: false,
+        show_joystick: false,
+        show_menu: false,
         // ros connection
         ros: null,
         rosbridge_address: 'ws://0.0.0.0:9090',
@@ -36,6 +45,9 @@ let vueApp = new Vue({
         pubInterval: null,
         // subscriber data
         position: { x: 0, y: 0, z: 0, },
+        orientation: { x: 0, y: 0, z: 0, w: 0, },
+        lin_vel: { x: 0, y: 0, z: 0, },
+        ang_vel: { x: 0, y: 0, z: 0, },
         subs_linear: 0.0,
         subs_angular: 0.0,
         ros_status: 100, //0 (communication closed), 1 (communication oppened), 2 (communication ended)
@@ -62,6 +74,15 @@ let vueApp = new Vue({
                 this.moveDisabled = true
                 this.recordDisabled = true
 
+                this.show_address= false
+                this.show_options= true
+                this.show_record= false
+                this.show_move= false
+                this.show_camera= true
+                this.show_datalogger= false
+                this.show_joystick= false
+                this.show_menu= true
+
                 this.setCamera()
                 console.log('Connection to ROSBridge established!')
 
@@ -72,6 +93,9 @@ let vueApp = new Vue({
                 })
                 topic.subscribe((message) => {
                     this.position = message.pose.pose.position
+                    this.orientation = message.pose.pose.orientation
+                    this.lin_vel = message.twist.twist.linear
+                    this.ang_vel = message.twist.twist.angular
                 })
                 
                 let ros_status_topic = new ROSLIB.Topic({         
@@ -118,10 +142,21 @@ let vueApp = new Vue({
                 this.sendCommand(0,0)
                 this.subs_linear = 0
                 this.subs_angular = 0
+
                 this.connected = false
                 this.loading = false
                 this.moveDisabled = true
                 this.recordDisabled = true
+
+                this.show_address= true
+                this.show_options= false
+                this.show_record= false
+                this.show_move= false
+                this.show_camera= false
+                this.show_datalogger= false
+                this.show_joystick= false
+                this.show_menu= false
+
                 this.ros_status = 100
                 document.getElementById('divCamera').innerHTML = ''
                 console.log('Connection to ROSBridge was closed!')
@@ -215,6 +250,45 @@ let vueApp = new Vue({
             this.ros.close()
 
             
+        },
+
+        btn_teleop: function () {
+            
+            this.show_address= false
+            this.show_options= true
+            this.show_record= false
+            this.show_move= false
+            this.show_camera= true
+            this.show_datalogger= false
+            this.show_joystick= true
+            this.show_menu= true
+
+        },
+
+        btn_monitore: function () {
+            
+            this.show_address= false
+            this.show_options= true
+            this.show_record= true
+            this.show_move= false
+            this.show_camera= true
+            this.show_datalogger= true
+            this.show_joystick= true
+            this.show_menu= true
+
+        },
+
+        btn_replay: function () {
+            
+            this.show_address= false
+            this.show_options= true
+            this.show_record= false
+            this.show_move= true
+            this.show_camera= true
+            this.show_datalogger= true
+            this.show_joystick= false
+            this.show_menu= true
+
         },
 
         start_record: function () {
