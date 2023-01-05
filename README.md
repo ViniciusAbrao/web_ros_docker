@@ -16,9 +16,38 @@ A ROS_node is also implemented to record the robot motion. The data is stored in
 
 It is also possible to read the data from the rosbag in order to move the robot with the same motion previously recorded.
 
-The main program can be built and ran by doing the following from the project top directory:
+## Prototype
+
+The interface can be evaluated in a dynamic and interactive prototype of the project.
+The directory "prototype" contains only the html and basic JavaScript files. 
+
+Follow the next steps:
+
+1- Run the Python web server:
+
+$ cd prototype 
+
+$ python3 -m http.server 9000
+
+2- Open in browser:
+
+http://0.0.0.0:9000/
+
+## Requirements
+
+1- Docker and docker-compose.
+
+$ sudo apt-get install docker.io docker-compose
+
+In any other case, follow the official instructions on the website: 
+
+https://docs.docker.com/engine/install/ubuntu/
+
+2- The app is configured (docker-compose.yml) to run in Ubuntu, since it opens the Gazebo, from the docker container, in the host (to see the robot`s environment) .
 
 ## Build from source (this repo)
+
+The main program can be built and ran by doing the following from the project top directory:
 
 $ cd docker_ros 
 
@@ -40,8 +69,6 @@ In this case the docker-compose file must be edited to rename the images includi
 
 ## Running the application 
 
-The app is configured (docker-compose.yml) to run in Ubuntu, since it opens the Gazebo in the host (to see the robot`s environment) from the docker container.
-
 1- To run the docker-compose:
 
 $ ./my_compose.sh
@@ -56,7 +83,7 @@ ws://0.0.0.0:9090
 
 4- To copy the bag file from the container to the host:
 
-$ docker cp ct5:/root/.ros/test.bag /home/abrao/test.bag
+$ docker cp ct5:/root/.ros/test.bag ~/test.bag
 
 5- To close (ctrl+c):
 
@@ -72,7 +99,7 @@ $ docker container prune -f
 
 8- To delete the images:
 
-$ docker rmi --force viniciusabrao/my_nginx:v0
+$ docker rmi --force my_nginx:v0
 
-$ docker rmi --force viniciusabrao/ros_nginx:v0
+$ docker rmi --force ros_nginx:v0
 
