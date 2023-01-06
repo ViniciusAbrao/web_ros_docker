@@ -7,8 +7,8 @@
 # new environment variables
 
 # modified environment variables
-export LD_LIBRARY_PATH='/opt/ros/noetic/lib:/opt/ros/noetic/lib/x86_64-linux-gnu'
-export PKG_CONFIG_PATH='/opt/ros/noetic/lib/pkgconfig:/opt/ros/noetic/lib/x86_64-linux-gnu/pkgconfig'
-export PWD='/home/abrao/Downloads/puc/the_construct/final/docker_ros/my_backend/catkin_ws/build'
-export PYTHONPATH='/opt/ros/noetic/lib/python3/dist-packages'
-export ROS_PACKAGE_PATH='/home/abrao/Downloads/puc/the_construct/final/docker_ros/my_backend/catkin_ws/src:/opt/ros/noetic/share'
+export CMAKE_PREFIX_PATH="/home/abrao/Downloads/puc/projeto/docker_ros/my_backend/catkin_ws/devel:$CMAKE_PREFIX_PATH"
+export PATH='/opt/ros/noetic/bin:/home/abrao/.sdkman/candidates/gradle/current/bin:/home/abrao/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/abrao/.local/bin'
+export PWD='/home/abrao/Downloads/puc/projeto/docker_ros/my_backend/catkin_ws/build'
+export ROSLISP_PACKAGE_DIRECTORIES='/home/abrao/Downloads/puc/projeto/docker_ros/my_backend/catkin_ws/devel/share/common-lisp'
+export ROS_PACKAGE_PATH="/home/abrao/Downloads/puc/projeto/docker_ros/my_backend/catkin_ws/src:$ROS_PACKAGE_PATH"

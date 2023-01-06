@@ -1,2 +1,2 @@
 my_package
--DCATKIN_DEVEL_PREFIX=/home/abrao/Downloads/puc/the_construct/final/docker_ros/my_backend/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/abrao/Downloads/puc/the_construct/final/docker_ros/my_backend/catkin_ws/install -G Unix Makefiles
+-DCATKIN_DEVEL_PREFIX=/home/abrao/Downloads/puc/projeto/docker_ros/my_backend/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/abrao/Downloads/puc/projeto/docker_ros/my_backend/catkin_ws/install -G Unix Makefiles

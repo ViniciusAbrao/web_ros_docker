@@ -2,7 +2,7 @@
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/abrao/Downloads/puc/the_construct/final/docker_ros/my_backend/catkin_ws/install")
+  set(CMAKE_INSTALL_PREFIX "/home/abrao/Downloads/puc/projeto/docker_ros/my_backend/catkin_ws/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 

@@ -67,14 +67,14 @@ set(my_package_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("FALSE" STREQUAL "TRUE")
-  set(my_package_SOURCE_PREFIX /home/abrao/Downloads/puc/the_construct/final/docker_ros/my_backend/catkin_ws/src/my_package)
-  set(my_package_DEVEL_PREFIX /home/abrao/Downloads/puc/the_construct/final/docker_ros/my_backend/catkin_ws/devel)
+  set(my_package_SOURCE_PREFIX /home/abrao/Downloads/puc/projeto/docker_ros/my_backend/catkin_ws/src/my_package)
+  set(my_package_DEVEL_PREFIX /home/abrao/Downloads/puc/projeto/docker_ros/my_backend/catkin_ws/devel)
   set(my_package_INSTALL_PREFIX "")
   set(my_package_PREFIX ${my_package_DEVEL_PREFIX})
 else()
   set(my_package_SOURCE_PREFIX "")
   set(my_package_DEVEL_PREFIX "")
-  set(my_package_INSTALL_PREFIX /home/abrao/Downloads/puc/the_construct/final/docker_ros/my_backend/catkin_ws/install)
+  set(my_package_INSTALL_PREFIX /home/abrao/Downloads/puc/projeto/docker_ros/my_backend/catkin_ws/install)
   set(my_package_PREFIX ${my_package_INSTALL_PREFIX})
 endif()
 
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/abrao/Downloads/puc/the_construct/final/docker_ros/my_backend/catkin_ws/install/lib;/home/abrao/Downloads/puc/the_construct/final/docker_ros/my_backend/catkin_ws/devel/lib;/opt/ros/noetic/lib)
+    foreach(path /home/abrao/Downloads/puc/projeto/docker_ros/my_backend/catkin_ws/install/lib;/opt/ros/noetic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)

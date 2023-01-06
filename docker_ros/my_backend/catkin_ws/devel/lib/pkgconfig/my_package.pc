@@ -1,8 +1,8 @@
-prefix=/home/abrao/Downloads/puc/the_construct/final/docker_ros/my_backend/catkin_ws/devel
+prefix=/home/abrao/Downloads/puc/projeto/docker_ros/my_backend/catkin_ws/devel
 
 Name: my_package
 Description: Description of my_package
 Version: 0.0.0
-Cflags: -I/home/abrao/Downloads/puc/the_construct/final/docker_ros/my_backend/catkin_ws/devel/include
+Cflags: -I/home/abrao/Downloads/puc/projeto/docker_ros/my_backend/catkin_ws/devel/include
 Libs: -L${prefix}/lib 
 Requires: rospy message_runtime
