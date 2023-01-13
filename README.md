@@ -66,21 +66,19 @@ In the interface image presented above is possible to see the main functionaliti
 
 Non-functional requirements:
 
--The system must make the connection through the rosbridge address
+-The web interface runs on a desktop browser
 
--The web interface must run on a desktop browser
+-The gazebo simulation runs without the need of a locally installed ROS
 
--The gazebo simulation should be viewed without the need for a locally installed ROS
+-Backend code runs without need to install ROS locally
 
--Backend code should run without need to install ROS locally
+-The web interface communicates in real time (interval of up to 0.5 seconds) with the simulation
 
--The web interface must communicate in real time (interval of up to 0.5 seconds) with the simulation
+-The backend is written in Python, that has native ROS library
 
--The backend must be written in Python or C++ language that have native ROS library
+-Database log file is saved in ROS native format (rosbag)
 
--Database log file must be saved in ROS native format (rosbag)
-
--The application must have a setup to run promptly on the Ubuntu operating system
+-The application has a setup to run promptly on the Ubuntu operating system
 
 Tutorial Video (original audio in Portuguese but with step-by-step demonstration):
 
