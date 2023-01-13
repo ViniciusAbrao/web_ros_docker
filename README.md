@@ -16,6 +16,54 @@ A ROS_node is also implemented to record the robot motion. The data is stored in
 
 It is also possible to read the data from the rosbag in order to move the robot with the same motion previously recorded.
 
+## Web Page Interface
+
+<img src="media/interface.jpg" width="700" height="400" />
+
+In the interface image presented above is possible to see the main functionalities already implemented:
+
+-The user log into the system with the ros bridge adress (ws://0.0.0.0:9090)
+
+-The user have the option to disconnect and reconnect on the system
+
+-The user must click and move mouse to perform joystick actions
+
+-The user must select the linear speed of the robot by moving the mouse vertically
+
+-The user must select the angular velocity of the robot by moving the mouse horizontally
+
+-The user must select the commanded linear velocity values ​​in a range of -0.5 to 0.5 m/s
+
+-The user must select the commanded angular velocity values ​​in a range of -0.5 to 0.5 rad/sec
+
+-The user can view the linear speed values ​​commanded by the joystick
+
+-The user can view the angular velocity values ​​commanded by the joystick
+
+-The user can visualize the values ​​of linear velocity that the robot executed the movement
+
+-The user can visualize the angular velocity values ​​that the robot executed the movement
+
+-The user can view the X and Y coordinates of the robot's current position in relation to the map origin
+
+-The user can visualize the orientation of the robot indicating how much it rotated in relation to the origin of the map
+
+-The user can view the images from the camera embedded in the robot while it is moving
+
+-The user can record the current position and orientation of the robot relative to the map origin
+
+-The user can record the linear speed that the robot performed the movement
+
+-The user can record the angular speed that the robot performed the movement
+
+-The user can record the linear speed commanded by the joystick
+
+-The user can record the angular velocity commanded by the joystick
+
+-The user can record simulation time information
+
+-The user can repeat the movement with previously recorded commanded speeds
+
 ## Prototype
 
 The interface can be evaluated in a dynamic and interactive prototype of the project.
