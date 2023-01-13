@@ -18,7 +18,7 @@ It is also possible to read the data from the rosbag in order to move the robot 
 
 ## Web Page Interface
 
-<img src="media/interface.jpg" width="700" height="400" />
+<img src="media/interface.png" width="700" height="400" />
 
 In the interface image presented above is possible to see the main functionalities already implemented:
 
@@ -63,6 +63,24 @@ In the interface image presented above is possible to see the main functionaliti
 -The user can record simulation time information
 
 -The user can repeat the movement with previously recorded commanded speeds
+
+Non-functional requirements:
+
+-The system must make the connection through the rosbridge address
+
+-The web interface must run on a desktop browser
+
+-The gazebo simulation should be viewed without the need for a locally installed ROS
+
+-Backend code should run without need to install ROS locally
+
+-The web interface must communicate in real time (interval of up to 0.5 seconds) with the simulation
+
+-The backend must be written in Python or C++ language that have native ROS library
+
+-Database log file must be saved in ROS native format (rosbag)
+
+-The application must have a setup to run promptly on the Ubuntu operating system
 
 ## Prototype
 
