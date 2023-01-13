@@ -82,6 +82,10 @@ Non-functional requirements:
 
 -The application must have a setup to run promptly on the Ubuntu operating system
 
+Tutorial Video (original audio in Portuguese but with step-by-step demonstration):
+
+https://youtu.be/MNKXtp2AG7A
+
 ## Prototype
 
 The interface can be evaluated in a dynamic and interactive prototype of the project.
